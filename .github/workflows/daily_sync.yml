@@ -3,7 +3,7 @@ name: Bet Sync
 on:
   schedule:
     # Runs every 6 hours
-    - cron: '0 */2 * * *'
+    - cron: '0 */6 * * *'
   workflow_dispatch: # Allows you to manually trigger it from the URL for testing
 
 jobs:
