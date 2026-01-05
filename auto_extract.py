@@ -1,5 +1,5 @@
 import requests
-import csv
+
 import re
 import time
 import json
@@ -11,7 +11,7 @@ load_dotenv()
 # URL of the page where the table lives (we scrape this for the Nonce)
 PAGE_URL = os.getenv("SOURCE_PAGE_URL") 
 API_URL = os.getenv("SOURCE_API_URL")
-OUTPUT_FILE = "bets_export.csv"
+
 
 def get_nonce_and_config():
     """Fetches the webpage and extracts the EV_HR configuration object."""
@@ -129,17 +129,8 @@ def fetch_all_bets():
 def main():
     try:
         raw_rows = fetch_all_bets()
-        print(f"Writing {len(raw_rows)} bets to {OUTPUT_FILE}...")
+        print(f"Successfully fetched {len(raw_rows)} bets.")
         
-        with open(OUTPUT_FILE, 'w', newline='', encoding='utf-8') as f:
-            headers = ["ID", "Date", "Bookie", "Event", "Bet", "Stake", "Odds", "Fair Odds", "Prob %", "Value %", "EV", "Result", "Profit"]
-            writer = csv.DictWriter(f, fieldnames=headers)
-            writer.writeheader()
-            for r in raw_rows:
-                writer.writerow(process_row(r))
-                
-        print("Success.")
-
     except Exception as e:
         print(f"Error: {e}")
 
